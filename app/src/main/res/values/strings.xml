@@ -13,4 +13,13 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+    <string name="subtitle">Sistema de Turnos</string>
+    <string name="title">SMARTTURNO</string>
+    <string name="email">Email</string>
+    <string name="Password">Password</string>
+    <string name="sign_in">Ingresar</string>
+    <string name="forget_password">¿Olvido su password?</string>
+    <string name="register">¿No tiene cuenta?\n Registrese aqui</string>
+
 </resources>
