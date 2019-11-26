@@ -4,6 +4,10 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+//kapt
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
@@ -21,6 +25,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -33,4 +40,31 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //Retrofit and GSON
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+
+    //kotlin coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+
+    //viewmodel and livedata
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+
+    //new material design
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
+
+    //kodein dependecy injection
+    implementation 'org.kodein.di:kodein-di-generic-jvm:6.2.1'
+    implementation 'org.kodein.di:kodein-di-framework-android-x:6.2.1'
+
+    //android room
+    implementation 'androidx.room:room-runtime:2.1.0-rc01'
+    implementation 'androidx.room:room-ktx:2.1.0-rc01'
+    kapt 'androidx.room:room-compiler:2.1.0-rc01'
+
+    //Android navigagtion Architecture
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0-alpha05'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.1.0-alpha05'
 }
