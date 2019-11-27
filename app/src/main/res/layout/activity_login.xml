@@ -8,6 +8,10 @@
         tools:context=".LoginActivity"
         android:background="@color/colorBackground"
 >
+    <include
+            layout="@layout/app_bar_main_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     <RelativeLayout
             android:id="@+id/logo"
             android:padding="16dp"
