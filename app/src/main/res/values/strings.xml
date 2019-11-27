@@ -23,4 +23,10 @@
     <string name="forget_password">¿Olvido su password?</string>
     <string name="register">¿No tiene cuenta?\n Registrese aqui</string>
 
+    <string name="dialog_setting_title">Configuración backend</string>
+    <string name="production">lagranjadelsaber.com/</string>
+    <string name="centos_laravel">192.168.1.142:8000/api</string>
+    <string name="centos_apache">192.168.142/api</string>
+
+
 </resources>

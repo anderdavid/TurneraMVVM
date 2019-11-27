@@ -7,6 +7,13 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="StyledDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/apptheme_color</item>
+        <item name="colorPrimaryDark">@color/apptheme_color_dark</item>
+        <item name="colorAccent">@color/background</item>
+        <item name="android:textColorPrimary">@color/text_color_prymary</item>
+        <item name="android:background">@color/background</item>
+    </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

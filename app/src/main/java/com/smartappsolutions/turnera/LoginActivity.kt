@@ -1,11 +1,13 @@
 package com.smartappsolutions.turnera
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -49,8 +51,28 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun settings(): Boolean {
-        Toast.makeText(applicationContext,"settings",Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext,"settings",Toast.LENGTH_SHORT).show()
+
+        val dialogSettings = DialogSettings(this)
+        dialogSettings.showDialog()
+
+
+
+
+    /*    val builder = AlertDialog.Builder(this)
+        builder.setTitle("You want to add a new item?");
+        builder.setPositiveButton("Aceptar",
+            DialogInterface.OnClickListener { dialog, id ->
+                Toast.makeText(applicationContext,"hello",Toast.LENGTH_LONG).show()
+            })
+
+
+        builder.show()*/
+
+
+
         return true
+
     }
 }
 
