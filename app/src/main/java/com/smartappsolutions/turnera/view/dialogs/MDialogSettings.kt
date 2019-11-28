@@ -25,13 +25,11 @@ class MDialogSettings:DialogFragment() {
     private lateinit var model: SharedViewModel
 
 
-    fun newInstance(title: String): MDialogSettings {
+    fun newInstance(): MDialogSettings {
         Log.d(TAG,"newInstance")
 
         val frag = MDialogSettings()
-        val args = Bundle()
-        args.putString("title", title)
-        frag.arguments = args
+
         return frag
     }
 
@@ -52,7 +50,6 @@ class MDialogSettings:DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         Log.d(TAG,"onCreateDialog")
 
-        val title = arguments!!.getString("title")
         return activity?.let {
 
             val builder = AlertDialog.Builder(it,R.style.StyledDialog)
@@ -72,8 +69,8 @@ class MDialogSettings:DialogFragment() {
                         var radioButton:RadioButton=vi.findViewById(rg.checkedRadioButtonId)
                         var backend = radioButton.text.toString()
 
-                       /* Toast.makeText(context,"backend: $backend",Toast.LENGTH_SHORT).show()*/
-                       /*  model.data.value = backend*/
+                        Log.d(TAG,"backend: $backend")
+
                         model.saveGlobal(Global(true,backend))
 
                     })

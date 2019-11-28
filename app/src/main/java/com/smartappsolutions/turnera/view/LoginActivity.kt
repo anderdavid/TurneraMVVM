@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
         /*val dialogSettings = DialogSettings(this)
         dialogSettings.showDialog()*/
 
-        val dialogSettings = MDialogSettings().newInstance("mDialogo")
+        val dialogSettings = MDialogSettings().newInstance()
         dialogSettings.show(supportFragmentManager,"dialog")
 
 
