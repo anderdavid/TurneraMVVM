@@ -10,27 +10,40 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
+import com.smartappsolutions.turnera.viewModel.LoginViewModel
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import com.smartappsolutions.turnera.databinding.ActivityLoginBinding
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
+
+    private lateinit var mViewModel:LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        mViewModel=ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+        binding.viewmodel=mViewModel
+
         val toolbar: Toolbar = findViewById(R.id.toolbar_login)
         setSupportActionBar(toolbar)
 
-        /*val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout_login)*/
-        /*val navView: NavigationView = findViewById(R.id.nav_view)*/
+        addObserver()
 
-       /* val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )*/
-       /* drawerLayout.addDrawerListener(toggle)*/
-       /* toggle.syncState()*/
+    }
 
+    private fun addObserver() {
+
+        val observer =Observer<String>{valitation->
+            Toast.makeText(applicationContext,valitation.toString(),Toast.LENGTH_SHORT).show()
+        }
+        mViewModel.validation.observe(this,observer)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -55,20 +68,6 @@ class LoginActivity : AppCompatActivity() {
 
         val dialogSettings = DialogSettings(this)
         dialogSettings.showDialog()
-
-
-
-
-    /*    val builder = AlertDialog.Builder(this)
-        builder.setTitle("You want to add a new item?");
-        builder.setPositiveButton("Aceptar",
-            DialogInterface.OnClickListener { dialog, id ->
-                Toast.makeText(applicationContext,"hello",Toast.LENGTH_LONG).show()
-            })
-
-
-        builder.show()*/
-
 
 
         return true
