@@ -1,23 +1,18 @@
-package com.smartappsolutions.turnera
+package com.smartappsolutions.turnera.view.dialogs
 
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
-import android.os.Bundle
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 
-import android.view.LayoutInflater
-
+import com.smartappsolutions.turnera.R
 
 
 class DialogSettings(mActivity:Activity):DialogFragment(){
 
     var mActivity =mActivity
-    var builder:AlertDialog.Builder=AlertDialog.Builder(mActivity,R.style.StyledDialog)
+    var builder:AlertDialog.Builder=AlertDialog.Builder(mActivity, R.style.StyledDialog)
     var dialog: AlertDialog? = builder.create()
 
 

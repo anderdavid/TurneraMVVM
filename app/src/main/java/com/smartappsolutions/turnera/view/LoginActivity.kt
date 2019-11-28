@@ -1,22 +1,19 @@
-package com.smartappsolutions.turnera
+package com.smartappsolutions.turnera.view
 
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.navigation.NavigationView
 import com.smartappsolutions.turnera.viewModel.LoginViewModel
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.smartappsolutions.turnera.R
+import com.smartappsolutions.turnera.database.entities.Global
 import com.smartappsolutions.turnera.databinding.ActivityLoginBinding
-import kotlinx.android.synthetic.main.activity_login.*
+import com.smartappsolutions.turnera.view.dialogs.DialogSettings
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,14 +25,31 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         mViewModel=ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+        val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this,
+            R.layout.activity_login
+        )
         binding.viewmodel=mViewModel
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_login)
         setSupportActionBar(toolbar)
 
         addObserver()
+        addGlobalObserver()
 
+    }
+
+    private fun addGlobalObserver(){
+        val observer = Observer<List<Global>>{globals->
+            if(globals!=null){
+                var text=""
+                for(global in globals){
+                    text+=""+global.isLogin + " "+ global.backend +"\n"
+                }
+                Toast.makeText(applicationContext,text,Toast.LENGTH_SHORT).show()
+            }
+
+        }
+        mViewModel.globals.observe(this,observer)
     }
 
     private fun addObserver() {
