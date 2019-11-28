@@ -13,8 +13,7 @@ import androidx.lifecycle.Observer
 import com.smartappsolutions.turnera.R
 import com.smartappsolutions.turnera.database.entities.Global
 import com.smartappsolutions.turnera.databinding.ActivityLoginBinding
-import com.smartappsolutions.turnera.view.dialogs.DialogSettings
-import com.smartappsolutions.turnera.view.dialogs.MyAlertDialogFragment
+import com.smartappsolutions.turnera.view.dialogs.MDialogSettings
 
 class LoginActivity : AppCompatActivity() {
 
@@ -84,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
         /*val dialogSettings = DialogSettings(this)
         dialogSettings.showDialog()*/
 
-        val dialogSettings = MyAlertDialogFragment().newInstance("mDialogo")
+        val dialogSettings = MDialogSettings().newInstance("mDialogo")
         dialogSettings.show(supportFragmentManager,"dialog")
 
 

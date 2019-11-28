@@ -12,23 +12,23 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.smartappsolutions.turnera.R
+import com.smartappsolutions.turnera.database.entities.Global
 import com.smartappsolutions.turnera.viewModel.SharedViewModel
-import kotlinx.android.synthetic.*
 
 
-class MyAlertDialogFragment:DialogFragment() {
+class MDialogSettings:DialogFragment() {
 
-    val TAG ="MyAlertDialogFragment"
+    val TAG ="MDialogSettings"
 
     lateinit var rg:RadioGroup
 
     private lateinit var model: SharedViewModel
 
 
-    fun newInstance(title: String): MyAlertDialogFragment {
+    fun newInstance(title: String): MDialogSettings {
         Log.d(TAG,"newInstance")
 
-        val frag = MyAlertDialogFragment()
+        val frag = MDialogSettings()
         val args = Bundle()
         args.putString("title", title)
         frag.arguments = args
@@ -73,7 +73,8 @@ class MyAlertDialogFragment:DialogFragment() {
                         var backend = radioButton.text.toString()
 
                        /* Toast.makeText(context,"backend: $backend",Toast.LENGTH_SHORT).show()*/
-                         model.data.value = backend
+                       /*  model.data.value = backend*/
+                        model.saveGlobal(Global(true,backend))
 
                     })
             builder.create()
