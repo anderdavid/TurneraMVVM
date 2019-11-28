@@ -14,6 +14,7 @@ import com.smartappsolutions.turnera.R
 import com.smartappsolutions.turnera.database.entities.Global
 import com.smartappsolutions.turnera.databinding.ActivityLoginBinding
 import com.smartappsolutions.turnera.view.dialogs.DialogSettings
+import com.smartappsolutions.turnera.view.dialogs.MyAlertDialogFragment
 
 class LoginActivity : AppCompatActivity() {
 
@@ -80,8 +81,12 @@ class LoginActivity : AppCompatActivity() {
     private fun settings(): Boolean {
         Toast.makeText(applicationContext,"settings",Toast.LENGTH_SHORT).show()
 
-        val dialogSettings = DialogSettings(this)
-        dialogSettings.showDialog()
+        /*val dialogSettings = DialogSettings(this)
+        dialogSettings.showDialog()*/
+
+        val dialogSettings = MyAlertDialogFragment().newInstance("mDialogo")
+        dialogSettings.show(supportFragmentManager,"dialog")
+
 
 
         return true
