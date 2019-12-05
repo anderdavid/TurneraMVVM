@@ -18,8 +18,12 @@ class SharedViewModel(application: Application) : AndroidViewModel(application){
     }
 
     val globals =repository.getGlobal()
+    var firstGlobal =repository.getFirstGlobal()
 
     fun saveGlobal(global: Global){
         repository.insert(global)
+    }
+    fun updateFirstGlobal(global: Global){
+        repository.update(global)
     }
 }

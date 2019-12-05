@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = Global.TABLE_NAME)
 data class Global(
-    @ColumnInfo(name = "is_login")@NotNull val isLogin :Boolean,
-    @ColumnInfo(name = "backend")@NotNull val backend :String
+    @ColumnInfo(name = "is_login")@NotNull var isLogin :Boolean,
+    @ColumnInfo(name = "backend")@NotNull var backend :String
 ){
     companion object{
         const val TABLE_NAME ="global"

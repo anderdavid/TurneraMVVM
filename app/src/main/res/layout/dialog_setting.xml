@@ -19,20 +19,21 @@
             app:layout_constraintTop_toTopOf= "parent"
            >
         <RadioButton
-                android:id="@+id/laravel_centos"
+                android:id="@+id/produccion"
                 android:text="@string/production"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
+
         />
         <RadioButton
-                android:id="@+id/apache_centos"
+                android:id="@+id/centos_laravel"
                 android:text="@string/centos_laravel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
         />
         <RadioButton
-                android:id="@+id/produccion"
+                android:id="@+id/centos_apache"
                 android:text="@string/centos_apache"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
