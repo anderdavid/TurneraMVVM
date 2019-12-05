@@ -6,9 +6,7 @@ import android.content.DialogInterface
 import androidx.fragment.app.DialogFragment
 import android.os.Bundle
 import android.util.Log
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.smartappsolutions.turnera.R
@@ -60,6 +58,19 @@ class MDialogSettings:DialogFragment() {
             val vi = inflater?.inflate(R.layout.dialog_setting, null)
             builder.setView(vi)
 
+            val checkOther =vi?.findViewById<RadioButton>(R.id.other)
+            val edtCheckOther =vi?.findViewById<EditText>(R.id.other_backend)
+
+            checkOther?.setOnCheckedChangeListener(
+                CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+                    if(buttonView.isChecked()){
+                        edtCheckOther?.setEnabled(true)
+                    }else{
+                        edtCheckOther?.setEnabled(false)
+                    }
+                }
+            )
+
             model.firstGlobal.observe(this, Observer {
 
                 var id =R.id.produccion
@@ -76,6 +87,11 @@ class MDialogSettings:DialogFragment() {
                     getString(R.string.other)->{
                         id =R.id.other
                     }
+                    else ->{
+                        id =R.id.other
+                        edtCheckOther?.setText(it.backend)
+                    }
+
                }
                 rg.check(id)
             })
@@ -83,19 +99,33 @@ class MDialogSettings:DialogFragment() {
            rg = vi!!.findViewById(R.id.rg)
 
             builder.setTitle(R.string.dialog_setting_title);
-            builder.setMessage("Aceptar")
-                .setPositiveButton("Aceptar",
+            builder.setPositiveButton("Aceptar",
                     DialogInterface.OnClickListener { dialog, id ->
 
 
                         var radioButton:RadioButton=vi.findViewById(rg.checkedRadioButtonId)
                         var backend = radioButton.text.toString()
+                        if(rg.checkedRadioButtonId ==R.id.other){
+
+                            val backend_txt =vi.findViewById<EditText>(R.id.other_backend).text.toString()
+
+                            if(backend_txt.isEmpty()){
+                                Toast.makeText(context,"Backend Invalido",Toast.LENGTH_LONG).show()
+                                backend=""
+
+                            }else{
+                                backend =backend_txt
+                            }
+                        }
+
 
                         Log.d(TAG,"backend: $backend")
 
                         model.firstGlobal.observe(this, Observer {
-                          it.backend =backend
-                            model.updateFirstGlobal(it)
+                            if(!backend.isEmpty()){
+                                it.backend =backend
+                                model.updateFirstGlobal(it)
+                            }
                         })
 
 
