@@ -33,9 +33,27 @@ class LoginActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar_login)
         setSupportActionBar(toolbar)
 
+<<<<<<< Updated upstream
         addObserver()
         addGlobalObserver()
 
+=======
+        initGlobal()
+
+        addObserver()
+        addGlobalObserver()
+
+    }
+
+    fun initGlobal(){
+        mViewModel.existFirstGlobal.observe(this, Observer {
+            Log.d(TAG,"exists: "+it.toString())
+            if(!it){
+                mViewModel.initGlobal(false,default_backend)
+            }
+
+        })
+>>>>>>> Stashed changes
     }
 
     private fun addGlobalObserver(){
@@ -78,18 +96,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun settings(): Boolean {
-        Toast.makeText(applicationContext,"settings",Toast.LENGTH_SHORT).show()
-
-        /*val dialogSettings = DialogSettings(this)
-        dialogSettings.showDialog()*/
+       /* Toast.makeText(applicationContext,"settings",Toast.LENGTH_SHORT).show()*/
 
         val dialogSettings = MDialogSettings().newInstance()
         dialogSettings.show(supportFragmentManager,"dialog")
 
 
-
         return true
-
     }
 }
 
