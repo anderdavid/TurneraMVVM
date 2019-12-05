@@ -8,41 +8,39 @@ import androidx.lifecycle.MutableLiveData
 import com.smartappsolutions.turnera.database.DatabaseHelper
 import com.smartappsolutions.turnera.database.entities.Global
 import com.smartappsolutions.turnera.database.entities.GlobalDao
-import android.provider.ContactsContract.CommonDataKinds.Note
-
 
 
 class LoginRepository (application: Application) {
     var A_TAG ="Login"
     val TAG =A_TAG
 
-    private val contactDao: GlobalDao? = DatabaseHelper.getInstance(application)?.globalDao()
+    private val globalDao: GlobalDao? = DatabaseHelper.getInstance(application)?.globalDao()
 
     fun insert(global: Global){
-        if(contactDao !=null) {
-            InsertAsyncTask(contactDao).execute(global)
+        if(globalDao !=null) {
+            InsertAsyncTask(globalDao).execute(global)
         }
 
     }
 
     fun update(global: Global){
         Log.d(TAG,"repository.update")
-        if(contactDao !=null){
-            UpDateAsyncTask(contactDao).execute(global)
+        if(globalDao !=null){
+            UpDateAsyncTask(globalDao).execute(global)
         }
     }
 
     fun getGlobal():LiveData<List<Global>>{
-        return contactDao?.getGlobal() ?: MutableLiveData<List<Global>>()
+        return globalDao?.getGlobal() ?: MutableLiveData<List<Global>>()
 
     }
 
     fun getFirstGlobal():LiveData<Global>{
-        return contactDao?.getFirstGlobal() ?:MutableLiveData<Global>()
+        return globalDao?.getFirstGlobal() ?:MutableLiveData<Global>()
     }
 
     fun validateExistFirstGlobal():LiveData<Boolean>{
-        return  contactDao?.validateExistFirstGlobal() ?:MutableLiveData<Boolean>()
+        return  globalDao?.validateExistFirstGlobal() ?:MutableLiveData<Boolean>()
     }
 
     private class InsertAsyncTask(private val globalDao: GlobalDao): AsyncTask<Global, Void, Void>(){

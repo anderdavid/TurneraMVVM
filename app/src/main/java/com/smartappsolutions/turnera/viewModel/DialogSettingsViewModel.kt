@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.smartappsolutions.turnera.database.entities.Global
 import com.smartappsolutions.turnera.repository.LoginRepository
 
-class SharedViewModel(application: Application) : AndroidViewModel(application){
+class DialogSettingsViewModel(application: Application) : AndroidViewModel(application){
 
     private val repository = LoginRepository(application)
     val data = MutableLiveData<String>()

@@ -10,8 +10,7 @@ import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.smartappsolutions.turnera.R
-import com.smartappsolutions.turnera.database.entities.Global
-import com.smartappsolutions.turnera.viewModel.SharedViewModel
+import com.smartappsolutions.turnera.viewModel.DialogSettingsViewModel
 
 
 class MDialogSettings:DialogFragment() {
@@ -20,7 +19,7 @@ class MDialogSettings:DialogFragment() {
 
     lateinit var rg:RadioGroup
 
-    private lateinit var model: SharedViewModel
+    private lateinit var model: DialogSettingsViewModel
 
 
     fun newInstance(): MDialogSettings {
@@ -36,7 +35,7 @@ class MDialogSettings:DialogFragment() {
         Log.d(TAG,"onCreate")
 
         model = activity?.run {
-            ViewModelProviders.of(this).get(SharedViewModel::class.java)
+            ViewModelProviders.of(this).get(DialogSettingsViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
         model.data.observe(this, Observer<String> { item ->
