@@ -18,4 +18,10 @@ interface GlobalDao {
     /*@Query("SELECT *FROM  "+Global.TABLE_NAME +" WHERE global_id = 1")*/
     @Query("SELECT *FROM  "+Global.TABLE_NAME +" ORDER BY backend")
     fun getGlobal(): LiveData<List<Global>>
+
+    @Query("SELECT *FROM  "+Global.TABLE_NAME +" WHERE global_id = 1 LIMIT 1")
+    fun getFirstGlobal():LiveData<Global>
+
+    @Query("SELECT EXISTS (SELECT *FROM global where global_id =1)")
+    fun validateExistFirstGlobal():LiveData<Boolean>
 }

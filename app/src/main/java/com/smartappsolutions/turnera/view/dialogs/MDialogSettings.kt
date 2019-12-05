@@ -44,6 +44,8 @@ class MDialogSettings:DialogFragment() {
         model.data.observe(this, Observer<String> { item ->
             Toast.makeText(context,item.toString(),Toast.LENGTH_SHORT).show()
         })
+
+
     }
 
 
@@ -58,6 +60,26 @@ class MDialogSettings:DialogFragment() {
             val vi = inflater?.inflate(R.layout.dialog_setting, null)
             builder.setView(vi)
 
+            model.firstGlobal.observe(this, Observer {
+
+                var id =R.id.produccion
+                when(it.backend){
+                    getString(R.string.production)->{
+                        id =R.id.produccion
+                    }
+                    getString(R.string.centos_laravel)->{
+                        id =R.id.centos_laravel
+                    }
+                    getString(R.string.centos_apache)->{
+                        id =R.id.centos_apache
+                    }
+                    getString(R.string.other)->{
+                        id =R.id.other
+                    }
+               }
+                rg.check(id)
+            })
+
            rg = vi!!.findViewById(R.id.rg)
 
             builder.setTitle(R.string.dialog_setting_title);
@@ -71,7 +93,11 @@ class MDialogSettings:DialogFragment() {
 
                         Log.d(TAG,"backend: $backend")
 
-                        model.saveGlobal(Global(true,backend))
+                        model.firstGlobal.observe(this, Observer {
+                          it.backend =backend
+                            model.updateFirstGlobal(it)
+                        })
+
 
                     })
             builder.create()

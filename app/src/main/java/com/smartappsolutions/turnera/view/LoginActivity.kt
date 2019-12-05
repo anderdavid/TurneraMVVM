@@ -2,6 +2,7 @@ package com.smartappsolutions.turnera.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -17,21 +18,34 @@ import com.smartappsolutions.turnera.view.dialogs.MDialogSettings
 
 class LoginActivity : AppCompatActivity() {
 
-
+    val TAG ="Login"
+    val default_backend:String="lagranjadelsaber.com/"
     private lateinit var mViewModel:LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        Log.d(TAG,"onCreate()")
+
 
         mViewModel=ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this,
-            R.layout.activity_login
-        )
+        val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewmodel=mViewModel
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_login)
         setSupportActionBar(toolbar)
+
+
+        mViewModel.existFirstGlobal.observe(this, Observer {
+            Log.d(TAG,"exists: "+it.toString())
+            if(!it){
+                mViewModel.initGlobal(false,default_backend)
+            }
+
+        })
+
+
+
 
         addObserver()
         addGlobalObserver()
