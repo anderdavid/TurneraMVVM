@@ -12,7 +12,7 @@ import com.smartappsolutions.turnera.viewModel.LoginViewModel
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.smartappsolutions.turnera.R
-import com.smartappsolutions.turnera.database.entities.Global
+import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.databinding.ActivityLoginBinding
 import com.smartappsolutions.turnera.view.dialogs.MDialogSettings
 
@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun addGlobalObserver(){
-        val observer = Observer<List<Global>>{globals->
+        val observer = Observer<List<Global>>{ globals->
             if(globals!=null){
                 var text=""
                 for(global in globals){

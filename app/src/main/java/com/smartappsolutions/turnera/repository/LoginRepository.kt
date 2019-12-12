@@ -5,9 +5,9 @@ import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.smartappsolutions.turnera.database.DatabaseHelper
-import com.smartappsolutions.turnera.database.entities.Global
-import com.smartappsolutions.turnera.database.entities.GlobalDao
+import com.smartappsolutions.turnera.model.database.DatabaseHelper
+import com.smartappsolutions.turnera.model.database.entities.Global
+import com.smartappsolutions.turnera.model.database.entities.GlobalDao
 
 
 class LoginRepository (application: Application) {

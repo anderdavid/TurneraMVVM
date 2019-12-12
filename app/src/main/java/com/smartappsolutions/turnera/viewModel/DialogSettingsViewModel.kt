@@ -4,8 +4,7 @@ package com.smartappsolutions.turnera.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.smartappsolutions.turnera.database.entities.Global
+import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.repository.LoginRepository
 
 class DialogSettingsViewModel(application: Application) : AndroidViewModel(application){

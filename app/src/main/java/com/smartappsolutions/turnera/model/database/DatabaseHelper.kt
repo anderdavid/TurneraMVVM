@@ -1,11 +1,11 @@
-package com.smartappsolutions.turnera.database
+package com.smartappsolutions.turnera.model.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.smartappsolutions.turnera.database.entities.Global
-import com.smartappsolutions.turnera.database.entities.GlobalDao
+import com.smartappsolutions.turnera.model.database.entities.Global
+import com.smartappsolutions.turnera.model.database.entities.GlobalDao
 
 @Database(entities = [Global::class], version = 1)
 abstract class DatabaseHelper:RoomDatabase() {
@@ -17,7 +17,7 @@ abstract class DatabaseHelper:RoomDatabase() {
 
 
         @Volatile
-        private var INSTANCE:DatabaseHelper?=null
+        private var INSTANCE: DatabaseHelper?=null
 
         fun getInstance(context: Context): DatabaseHelper? {
 

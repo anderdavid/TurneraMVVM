@@ -1,4 +1,4 @@
-package com.smartappsolutions.turnera.database.entities
+package com.smartappsolutions.turnera.model.database.entities
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -16,10 +16,10 @@ interface GlobalDao {
     fun delete(global: Global)
 
     /*@Query("SELECT *FROM  "+Global.TABLE_NAME +" WHERE global_id = 1")*/
-    @Query("SELECT *FROM  "+Global.TABLE_NAME +" ORDER BY backend")
+    @Query("SELECT *FROM  "+ Global.TABLE_NAME +" ORDER BY backend")
     fun getGlobal(): LiveData<List<Global>>
 
-    @Query("SELECT *FROM  "+Global.TABLE_NAME +" WHERE global_id = 1 LIMIT 1")
+    @Query("SELECT *FROM  "+ Global.TABLE_NAME +" WHERE global_id = 1 LIMIT 1")
     fun getFirstGlobal():LiveData<Global>
 
     @Query("SELECT EXISTS (SELECT *FROM global where global_id =1)")

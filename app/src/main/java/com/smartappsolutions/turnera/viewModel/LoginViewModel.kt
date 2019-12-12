@@ -5,15 +5,15 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.smartappsolutions.turnera.database.entities.Global
+import com.smartappsolutions.turnera.model.classes.LoginUser
+import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.repository.LoginRepository
 
 class LoginViewModel(application: Application) : AndroidViewModel(application){
 
     var A_TAG ="Login"
-    val TAG =A_TAG
-    /*val TAG ="LoginViewModel"*/
+    /*val TAG =A_TAG*/
+    val TAG ="LoginViewModel"
     var email:String?=null
     var password:String?=null
 
@@ -39,7 +39,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
 
     fun initGlobal(mLoginStatus:Boolean, mBackend:String):Boolean{
         Log.d(TAG,"initGlobal")
-        repository.insert(Global(mLoginStatus,mBackend))
+        repository.insert(Global(mLoginStatus, mBackend))
         return true
     }
 
@@ -56,17 +56,22 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
         Log.d(TAG,"onclick")
 
 
-        if(email.isNullOrEmpty()||password.isNullOrEmpty()){
-            Log.d(TAG,"campos estan vacios")
-            validation.value="campos estna vacios"
-            return
+
+        val loginUser:LoginUser = LoginUser(email.toString(),password.toString())
+
+        if(email.isNullOrEmpty()){
+            validation.value="El campo email esta vacio."
+        }else if(password.isNullOrEmpty()){
+            validation.value="El campo password está vacío."
+        }else if(!loginUser.isEmailValid()){
+            validation.value="Email invalido."
         }else{
-            Log.d(TAG,"email: $email \n  password: $password")
-            validation.value="email: $email \n  password: $password"
 
+            Log.d(TAG,"isValid()")
             ///test room///
-           /* saveGlobal(Global(true,"192.168.1.141"))*/
-
+            /* saveGlobal(Global(true,"192.168.1.141"))*/
         }
+
+
     }
 }

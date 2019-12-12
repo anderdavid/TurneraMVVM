@@ -1,4 +1,4 @@
-package com.smartappsolutions.turnera.database.entities
+package com.smartappsolutions.turnera.model.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
