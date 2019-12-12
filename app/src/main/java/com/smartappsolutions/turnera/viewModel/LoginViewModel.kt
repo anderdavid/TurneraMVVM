@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.smartappsolutions.turnera.model.classes.LoginUser
 import com.smartappsolutions.turnera.model.database.entities.Global
@@ -12,18 +13,20 @@ import com.smartappsolutions.turnera.repository.LoginRepository
 class LoginViewModel(application: Application) : AndroidViewModel(application){
 
     var A_TAG ="Login"
-    /*val TAG =A_TAG*/
-    val TAG ="LoginViewModel"
+    val TAG =A_TAG
+   /* val TAG ="LoginViewModel"*/
     var email:String?=null
     var password:String?=null
 
     var loginStatus:Boolean?=null
     var backend:String?=null
 
-    private val repository = LoginRepository(application)
+    val repository = LoginRepository(application)
 
     val globals =repository.getGlobal()
     var firstGlobal =repository.getFirstGlobal()
+
+
 
     var existFirstGlobal = repository.validateExistFirstGlobal()
 
@@ -31,6 +34,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
     val validation: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
+    /*val loginResponse: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }*/
+
 
     init {
         Log.d(TAG,"hello world viewmodel")
@@ -70,6 +77,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
             Log.d(TAG,"isValid()")
             ///test room///
             /* saveGlobal(Global(true,"192.168.1.141"))*/
+
+            repository.userLogin(email!!,password!!)
         }
 
 

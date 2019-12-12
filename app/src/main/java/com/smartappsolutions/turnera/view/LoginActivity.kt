@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
 
         addObserver()
         addGlobalObserver()
+        responseLoginObserver()
 
     }
 
@@ -52,6 +53,14 @@ class LoginActivity : AppCompatActivity() {
 
         })
 
+    }
+
+    fun responseLoginObserver(){
+        Log.d(TAG,"responseLoginObserver()")
+        mViewModel.repository.loginResponse.observe(this, Observer {
+
+            Toast.makeText(applicationContext,"Response: "+it.toString(),Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun addGlobalObserver(){

@@ -8,11 +8,20 @@ import androidx.lifecycle.MutableLiveData
 import com.smartappsolutions.turnera.model.database.DatabaseHelper
 import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.model.database.entities.GlobalDao
+import com.smartappsolutions.turnera.network.MyApi
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import  retrofit2.Response
 
 
 class LoginRepository (application: Application) {
     var A_TAG ="Login"
     val TAG =A_TAG
+
+    val loginResponse:MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     private val globalDao: GlobalDao? = DatabaseHelper.getInstance(application)?.globalDao()
 
@@ -20,6 +29,36 @@ class LoginRepository (application: Application) {
         if(globalDao !=null) {
             InsertAsyncTask(globalDao).execute(global)
         }
+
+    }
+
+    fun userLogin(email:String, password:String){
+        Log.d(TAG,"userLogin()")
+
+
+        var mResponse:String?=""
+
+        MyApi().userLogin(email,password)
+            .enqueue(object:Callback<ResponseBody>{
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    loginResponse.value=t.message
+                }
+
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if(response.isSuccessful){
+
+                        mResponse =response.body()?.string()
+                        loginResponse.value=mResponse
+                        Log.d(TAG,"success: "+mResponse)
+                    }else{
+                       mResponse=response.errorBody()?.string()
+                        loginResponse.value=mResponse
+                        Log.d(TAG,"fail: "+mResponse)
+                    }
+                }
+            })
+
+
 
     }
 
