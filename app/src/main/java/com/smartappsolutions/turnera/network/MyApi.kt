@@ -21,10 +21,11 @@ interface MyApi {
     companion object{
 
         val testUrl ="https://api.simplifiedcoding.in/course-apis/mvvm/"
+        val testUrl2="https://api.simpli"
 
         operator fun invoke():MyApi{
             return Retrofit.Builder()
-                .baseUrl(testUrl)
+                .baseUrl(testUrl2)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(MyApi::class.java)

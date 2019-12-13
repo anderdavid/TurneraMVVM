@@ -1,10 +1,12 @@
 package com.smartappsolutions.turnera.view
 
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProviders
@@ -15,12 +17,16 @@ import com.smartappsolutions.turnera.R
 import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.databinding.ActivityLoginBinding
 import com.smartappsolutions.turnera.view.dialogs.MDialogSettings
+import kotlinx.android.synthetic.main.activity_login.*
+import java.util.*
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(),AuthLIstener {
 
     val TAG ="Login"
     val default_backend:String="lagranjadelsaber.com/"
     private lateinit var mViewModel:LoginViewModel
+
+    val listener:AuthLIstener =this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
         addObserver()
         addGlobalObserver()
         responseLoginObserver()
+        showProgressBarObserver()
 
     }
 
@@ -61,6 +68,18 @@ class LoginActivity : AppCompatActivity() {
 
             Toast.makeText(applicationContext,"Response: "+it.toString(),Toast.LENGTH_SHORT).show()
         })
+    }
+
+    fun showProgressBarObserver(){
+        mViewModel.repository.showProgressBarFlag.observe(
+            this, Observer {isVisible->
+                if(isVisible){
+                    this.progress_bar.visibility =View.VISIBLE
+                }else{
+                    this.progress_bar.visibility =View.GONE
+                }
+            }
+        )
     }
 
     private fun addGlobalObserver(){
@@ -111,6 +130,30 @@ class LoginActivity : AppCompatActivity() {
 
         return true
     }
+
+    fun showProgressBar(){
+        this.progress_bar.visibility =View.VISIBLE
+    }
+    fun dimissProgressBar(){
+        this.progress_bar.visibility=View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        this.progress_bar.visibility= View.GONE
+    }
+
+
+
+
+}
+
+interface AuthLIstener {
+ fun onStop()
+}
+
+class mTimer(): Timer() {
+    val  listener:AuthLIstener ?=null
 }
 
 

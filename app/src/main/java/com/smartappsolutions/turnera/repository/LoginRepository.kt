@@ -23,6 +23,11 @@ class LoginRepository (application: Application) {
         MutableLiveData<String>()
     }
 
+    val showProgressBarFlag:MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+
+
     private val globalDao: GlobalDao? = DatabaseHelper.getInstance(application)?.globalDao()
 
     fun insert(global: Global){
@@ -37,23 +42,26 @@ class LoginRepository (application: Application) {
 
 
         var mResponse:String?=""
-
+        showProgressBarFlag.value=true
         MyApi().userLogin(email,password)
             .enqueue(object:Callback<ResponseBody>{
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    loginResponse.value=t.message
+                   Log.d(TAG,"onFailure()")
+                    showProgressBarFlag.value=false
                 }
 
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if(response.isSuccessful){
 
                         mResponse =response.body()?.string()
-                        loginResponse.value=mResponse
-                        Log.d(TAG,"success: "+mResponse)
+                        /*loginResponse.value=mResponse
+                        Log.d(TAG,"success: "+mResponse)*/
+                        showProgressBarFlag.value=false
                     }else{
                        mResponse=response.errorBody()?.string()
                         loginResponse.value=mResponse
                         Log.d(TAG,"fail: "+mResponse)
+                        showProgressBarFlag.value=false
                     }
                 }
             })
