@@ -34,11 +34,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
     val validation: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
-    /*val loginResponse: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }*/
 
-    private var mListener:LoginViewModelListener ?=null
 
 
     init {
@@ -64,9 +60,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
     fun onButtonClick(view: View){
         Log.d(TAG,"onclick")
 
-    testListener()
+    //testListener()
 
-        /*val loginUser:LoginUser = LoginUser(email.toString(),password.toString())
+        val loginUser:LoginUser = LoginUser(email.toString(),password.toString())
 
         if(email.isNullOrEmpty()){
             validation.value="El campo email esta vacio."
@@ -81,25 +77,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
             //saveGlobal(Global(true,"192.168.1.141"))
 
             repository.userLogin(email!!,password!!)
-        }*/
+        }
 
 
-    }
-
-
-
-    public interface LoginViewModelListener{
-        fun onShowDialogConexion()
-    }
-
-    fun setListener(loginViewModelListener:LoginViewModelListener){
-        Log.d(TAG,"setListener()")
-        mListener =loginViewModelListener
-    }
-
-    fun testListener(){
-        Log.d(TAG,"testListener()")
-        mListener?.onShowDialogConexion()
     }
 
 }

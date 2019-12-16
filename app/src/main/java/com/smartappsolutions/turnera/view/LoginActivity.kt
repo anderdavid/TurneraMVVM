@@ -21,7 +21,7 @@ import com.smartappsolutions.turnera.view.dialogs.MDialogSettings
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 
-class LoginActivity : AppCompatActivity(),AuthLIstener,LoginViewModel.LoginViewModelListener {
+class LoginActivity : AppCompatActivity(),AuthLIstener {
 
 
     val TAG ="Login"
@@ -39,7 +39,6 @@ class LoginActivity : AppCompatActivity(),AuthLIstener,LoginViewModel.LoginViewM
         mViewModel=ViewModelProviders.of(this).get(LoginViewModel::class.java)
         val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewmodel=mViewModel
-        mViewModel.setListener(this)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_login)
         setSupportActionBar(toolbar)
@@ -49,10 +48,8 @@ class LoginActivity : AppCompatActivity(),AuthLIstener,LoginViewModel.LoginViewM
 
         addObserver()
         addGlobalObserver()
-        responseLoginObserver()
         showProgressBarObserver()
-
-
+        addLoginResponseObserver()
 
     }
 
@@ -69,11 +66,18 @@ class LoginActivity : AppCompatActivity(),AuthLIstener,LoginViewModel.LoginViewM
 
     }
 
-    fun responseLoginObserver(){
-        Log.d(TAG,"responseLoginObserver()")
-        mViewModel.repository.loginResponse.observe(this, Observer {
 
-            Toast.makeText(applicationContext,"Response: "+it.toString(),Toast.LENGTH_SHORT).show()
+
+    fun addLoginResponseObserver(){
+        mViewModel.repository.responseLogin.observe(this, Observer {loginResponse->
+             if(loginResponse.isSuccefull){
+
+                 Log.d(TAG,"successd: "+loginResponse.response)
+                 Toast.makeText(applicationContext,loginResponse.response,Toast.LENGTH_LONG).show()
+             }else{
+                 val ft = supportFragmentManager.beginTransaction()
+                 DialogConexion().setConfig(ft,"Alerta",loginResponse.message)
+             }
         })
     }
 
@@ -148,14 +152,6 @@ class LoginActivity : AppCompatActivity(),AuthLIstener,LoginViewModel.LoginViewM
     override fun onStop() {
         super.onStop()
         this.progress_bar.visibility= View.GONE
-    }
-
-
-    override fun onShowDialogConexion() {
-        Log.d(TAG,"onShowDialogConexion()")
-
-        val ft = supportFragmentManager.beginTransaction()
-        DialogConexion().setConfig(ft,"Alerta","perros bravos")
     }
 
 }

@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.smartappsolutions.turnera.model.classes.LoginResponse
 import com.smartappsolutions.turnera.model.database.DatabaseHelper
 import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.model.database.entities.GlobalDao
@@ -19,8 +20,9 @@ class LoginRepository (application: Application) {
     var A_TAG ="Login"
     val TAG =A_TAG
 
-    val loginResponse:MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+
+    val responseLogin:MutableLiveData<LoginResponse> by lazy {
+        MutableLiveData<LoginResponse>()
     }
 
     val showProgressBarFlag:MutableLiveData<Boolean> by lazy {
@@ -29,6 +31,7 @@ class LoginRepository (application: Application) {
 
 
     private val globalDao: GlobalDao? = DatabaseHelper.getInstance(application)?.globalDao()
+
 
     fun insert(global: Global){
         if(globalDao !=null) {
@@ -48,20 +51,22 @@ class LoginRepository (application: Application) {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                    Log.d(TAG,"onFailure()")
                     showProgressBarFlag.value=false
+                    responseLogin.value = LoginResponse(false,"Error en la conexion,Revice su conexion a internet",null)
                 }
 
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if(response.isSuccessful){
 
                         mResponse =response.body()?.string()
-                        /*loginResponse.value=mResponse
-                        Log.d(TAG,"success: "+mResponse)*/
+                        Log.d(TAG,"success: "+mResponse)
+
                         showProgressBarFlag.value=false
+                        responseLogin.value =LoginResponse(response.isSuccessful,response.message(),mResponse)
                     }else{
                        mResponse=response.errorBody()?.string()
-                        loginResponse.value=mResponse
                         Log.d(TAG,"fail: "+mResponse)
                         showProgressBarFlag.value=false
+                        responseLogin.value =LoginResponse(response.isSuccessful,response.message(),mResponse)
                     }
                 }
             })
