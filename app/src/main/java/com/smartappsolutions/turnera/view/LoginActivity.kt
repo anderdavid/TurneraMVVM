@@ -21,7 +21,8 @@ import com.smartappsolutions.turnera.view.dialogs.MDialogSettings
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 
-class LoginActivity : AppCompatActivity(),AuthLIstener {
+class LoginActivity : AppCompatActivity(),AuthLIstener,LoginViewModel.LoginViewModelListener {
+
 
     val TAG ="Login"
     val default_backend:String="lagranjadelsaber.com/"
@@ -38,27 +39,24 @@ class LoginActivity : AppCompatActivity(),AuthLIstener {
         mViewModel=ViewModelProviders.of(this).get(LoginViewModel::class.java)
         val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewmodel=mViewModel
+        mViewModel.setListener(this)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_login)
         setSupportActionBar(toolbar)
 
 
-       /* initGlobal()
+        initGlobal()
 
         addObserver()
         addGlobalObserver()
         responseLoginObserver()
-        showProgressBarObserver()*/
+        showProgressBarObserver()
 
-        testDialog()
+
 
     }
 
-    fun testDialog(){
-        Log.d(TAG,"testDialog")
-        val ft = supportFragmentManager.beginTransaction()
-        DialogConexion().setConfig(ft,"Alerta","perros bravos")
-    }
+
 
     fun initGlobal(){
         mViewModel.existFirstGlobal.observe(this, Observer {
@@ -153,7 +151,12 @@ class LoginActivity : AppCompatActivity(),AuthLIstener {
     }
 
 
+    override fun onShowDialogConexion() {
+        Log.d(TAG,"onShowDialogConexion()")
 
+        val ft = supportFragmentManager.beginTransaction()
+        DialogConexion().setConfig(ft,"Alerta","perros bravos")
+    }
 
 }
 
