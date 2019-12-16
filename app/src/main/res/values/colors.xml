@@ -8,5 +8,6 @@
     <color name="apptheme_color_dark">#fff</color>
     <color name="text_color_prymary">#B7235B8A</color>
     <color name="background">#fff</color>
+    <color name="black">#555</color>
 
 </resources>

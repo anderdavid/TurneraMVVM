@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.smartappsolutions.turnera.R
 import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.databinding.ActivityLoginBinding
+import com.smartappsolutions.turnera.view.dialogs.DialogConexion
 import com.smartappsolutions.turnera.view.dialogs.MDialogSettings
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
@@ -42,13 +43,21 @@ class LoginActivity : AppCompatActivity(),AuthLIstener {
         setSupportActionBar(toolbar)
 
 
-        initGlobal()
+       /* initGlobal()
 
         addObserver()
         addGlobalObserver()
         responseLoginObserver()
-        showProgressBarObserver()
+        showProgressBarObserver()*/
 
+        testDialog()
+
+    }
+
+    fun testDialog(){
+        Log.d(TAG,"testDialog")
+        val ft = supportFragmentManager.beginTransaction()
+        DialogConexion().setConfig(ft,"Alerta","perros bravos")
     }
 
     fun initGlobal(){
