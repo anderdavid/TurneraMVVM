@@ -4,13 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.smartappsolutions.turnera.model.database.entities.Asuntos
+import com.smartappsolutions.turnera.model.database.entities.AsuntosDao
 import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.model.database.entities.GlobalDao
 
-@Database(entities = [Global::class], version = 1)
+@Database(entities = [Global::class,Asuntos::class], version = 2)
 abstract class DatabaseHelper:RoomDatabase() {
 
     abstract fun globalDao(): GlobalDao
+    abstract fun asuntosDao(): AsuntosDao
 
     companion object{
         private const val DATABASE_NAME="sistema_turnos"

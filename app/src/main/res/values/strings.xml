@@ -28,6 +28,7 @@
     <string name="centos_laravel">192.168.1.142:8000/api</string>
     <string name="centos_apache">192.168.142/api</string>
     <string name="other">otro</string>
+    <string name="title_activity_test_coroutines">TestCoroutines</string>
 
 
 </resources>
