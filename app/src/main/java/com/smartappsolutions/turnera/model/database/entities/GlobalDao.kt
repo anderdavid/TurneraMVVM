@@ -7,21 +7,21 @@ import androidx.room.*
 interface GlobalDao {
 
     @Insert
-    fun insert(global: Global)
+    suspend fun insert(global: Global)
 
     @Update
-    fun update(global: Global)
+    suspend fun update(global: Global)
 
     @Delete
-    fun delete(global: Global)
-
-    /*@Query("SELECT *FROM  "+Global.TABLE_NAME +" WHERE global_id = 1")*/
-    @Query("SELECT *FROM  "+ Global.TABLE_NAME +" ORDER BY backend")
-    fun getGlobal(): LiveData<List<Global>>
-
-    @Query("SELECT *FROM  "+ Global.TABLE_NAME +" WHERE global_id = 1 LIMIT 1")
-    fun getFirstGlobal():LiveData<Global>
+    suspend fun delete(global: Global)
 
     @Query("SELECT EXISTS (SELECT *FROM global where global_id =1)")
-    fun validateExistFirstGlobal():LiveData<Boolean>
+    suspend fun validateExistFirstGlobal():Boolean
+
+    @Query("SELECT *FROM  "+ Global.TABLE_NAME +" WHERE global_id = 1 LIMIT 1")
+    suspend fun getFirstGlobal():Global
+
+    @Query("SELECT *FROM  "+ Global.TABLE_NAME +" ORDER BY backend")
+    suspend fun getGlobal(): List<Global>
+
 }

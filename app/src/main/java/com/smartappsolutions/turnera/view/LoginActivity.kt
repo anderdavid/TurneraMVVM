@@ -21,20 +21,19 @@ import com.smartappsolutions.turnera.view.dialogs.MDialogSettings
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 
-class LoginActivity : AppCompatActivity(),AuthLIstener {
+class LoginActivity : AppCompatActivity() {
 
 
     val TAG ="Login"
-    val default_backend:String="lagranjadelsaber.com/"
+
     private lateinit var mViewModel:LoginViewModel
 
-    val listener:AuthLIstener =this
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         Log.d(TAG,"onCreate()")
-
 
         mViewModel=ViewModelProviders.of(this).get(LoginViewModel::class.java)
         val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
@@ -43,46 +42,22 @@ class LoginActivity : AppCompatActivity(),AuthLIstener {
         val toolbar: Toolbar = findViewById(R.id.toolbar_login)
         setSupportActionBar(toolbar)
 
-
-        initGlobal()
-
-        addObserver()
-        addGlobalObserver()
+        validationObserver()
         showProgressBarObserver()
         addLoginResponseObserver()
 
     }
 
+    private fun validationObserver() {
 
-
-    fun initGlobal(){
-        mViewModel.existFirstGlobal.observe(this, Observer {
-            Log.d(TAG,"exists: "+it.toString())
-            if(!it){
-                mViewModel.initGlobal(false,default_backend)
-            }
-
-        })
-
-    }
-
-
-
-    fun addLoginResponseObserver(){
-        mViewModel.repository.responseLogin.observe(this, Observer {loginResponse->
-             if(loginResponse.isSuccefull){
-
-                 Log.d(TAG,"successd: "+loginResponse.response)
-                 Toast.makeText(applicationContext,loginResponse.response,Toast.LENGTH_LONG).show()
-             }else{
-                 val ft = supportFragmentManager.beginTransaction()
-                 DialogConexion().setConfig(ft,"Alerta",loginResponse.message)
-             }
-        })
+        val observer =Observer<String>{valitation->
+            Toast.makeText(applicationContext,valitation.toString(),Toast.LENGTH_SHORT).show()
+        }
+        mViewModel.validation.observe(this,observer)
     }
 
     fun showProgressBarObserver(){
-        mViewModel.repository.showProgressBarFlag.observe(
+        mViewModel.showProgressBarFlag.observe(
             this, Observer {isVisible->
                 if(isVisible){
                     this.progress_bar.visibility =View.VISIBLE
@@ -93,26 +68,13 @@ class LoginActivity : AppCompatActivity(),AuthLIstener {
         )
     }
 
-    private fun addGlobalObserver(){
-        val observer = Observer<List<Global>>{ globals->
-            if(globals!=null){
-                var text=""
-                for(global in globals){
-                    text+=""+global.isLogin + " "+ global.backend +"\n"
-                }
-                Toast.makeText(applicationContext,text,Toast.LENGTH_SHORT).show()
-            }
-
-        }
-        mViewModel.globals.observe(this,observer)
-    }
-
-    private fun addObserver() {
-
-        val observer =Observer<String>{valitation->
-            Toast.makeText(applicationContext,valitation.toString(),Toast.LENGTH_SHORT).show()
-        }
-        mViewModel.validation.observe(this,observer)
+    fun addLoginResponseObserver(){
+        Log.d(TAG,"addLoginObserver()")
+        mViewModel.responseLogin.observe(this, Observer {loginResponse->
+            Log.d(TAG,"Observer()")
+            val ft = supportFragmentManager.beginTransaction()
+            DialogConexion().setConfig(ft,"Alerta",loginResponse)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -156,12 +118,6 @@ class LoginActivity : AppCompatActivity(),AuthLIstener {
 
 }
 
-interface AuthLIstener {
- fun onStop()
-}
 
-class mTimer(): Timer() {
-    val  listener:AuthLIstener ?=null
-}
 
 

@@ -38,11 +38,6 @@ class MDialogSettings:DialogFragment() {
             ViewModelProviders.of(this).get(DialogSettingsViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        model.data.observe(this, Observer<String> { item ->
-            Toast.makeText(context,item.toString(),Toast.LENGTH_SHORT).show()
-        })
-
-
     }
 
 
@@ -120,7 +115,9 @@ class MDialogSettings:DialogFragment() {
 
                         Log.d(TAG,"backend: $backend")
 
-                        model.firstGlobal.observe(this, Observer {
+
+
+                         model.firstGlobal.observe(this, Observer {
                             if(!backend.isEmpty()){
                                 it.backend =backend
                                 model.updateFirstGlobal(it)

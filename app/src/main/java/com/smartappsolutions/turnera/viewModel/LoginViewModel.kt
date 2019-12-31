@@ -4,63 +4,67 @@ import android.app.Application
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.smartappsolutions.turnera.model.classes.LoginUser
 import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.repository.LoginRepository
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import retrofit2.HttpException
 
 class LoginViewModel(application: Application) : AndroidViewModel(application){
 
     var A_TAG ="Login"
     val TAG =A_TAG
-   /* val TAG ="LoginViewModel"*/
+
     var email:String?=null
     var password:String?=null
 
-    var loginStatus:Boolean?=null
-    var backend:String?=null
+    val default_backend:String="lagranjadelsaber.com/"
 
     val repository = LoginRepository(application)
 
-    val globals =repository.getGlobal()
-    var firstGlobal =repository.getFirstGlobal()
-
-
-
-    var existFirstGlobal = repository.validateExistFirstGlobal()
-
-
-    val validation: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
+    val validation: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val showProgressBarFlag:MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    val responseLogin:MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
 
     init {
         Log.d(TAG,"hello world viewmodel")
+        initGlobal()
+    }
+
+    fun initGlobal(){
+        viewModelScope.launch {
+            Log.d(TAG,"initGlobal()")
+            initGlobalDatabase()
+        }
+    }
+
+    private  suspend fun initGlobalDatabase() = withContext(IO){
+       var existGlobal: Boolean? =repository.validateExistFirstGlobal()
+        Log.d(TAG, "existGlobal "+existGlobal.toString())
+        if(!existGlobal!!){
+            repository.insert(Global(false, default_backend))
+        }else{
+            val mGlobal = repository.getFirstGlobal()
+            Log.d(TAG,"global: "+mGlobal.toString())
+        }
+
+        existGlobal=repository.validateExistFirstGlobal()
+        Log.d(TAG, "existGlobal "+existGlobal.toString())
 
     }
 
-    fun initGlobal(mLoginStatus:Boolean, mBackend:String):Boolean{
-        Log.d(TAG,"initGlobal")
-        repository.insert(Global(mLoginStatus, mBackend))
-        return true
-    }
-
-
-    fun updateGlobal(global: Global){
-        repository.update(global)
-    }
-
-    fun saveGlobal(global: Global){
-        repository.insert(global)
+    private  suspend  fun setResponseLogin(response:String?){
+        responseLogin.value = response
     }
 
     fun onButtonClick(view: View){
         Log.d(TAG,"onclick")
-
-    //testListener()
 
         val loginUser:LoginUser = LoginUser(email.toString(),password.toString())
 
@@ -73,10 +77,35 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
         }else{
 
             Log.d(TAG,"isValid()")
-            ///test room///
-            //saveGlobal(Global(true,"192.168.1.141"))
+            showProgressBarFlag.value=true
 
-            repository.userLogin(email!!,password!!)
+            viewModelScope.launch {
+
+                try{
+                    val response =  repository.userLogin(email!!,password!!)
+
+                    if(response.isSuccessful){
+                        showProgressBarFlag.value=false
+                        Log.d(TAG,"viewmodel isSucceful"+response.body().toString())
+                    }else{
+                        showProgressBarFlag.value=false
+                        val res =response.errorBody()?.string()
+                        val resJson = JSONObject(res)
+                        val msg = resJson.getString("message")
+                        setResponseLogin(msg)
+                    }
+                }catch (e: HttpException){
+                    Log.d(TAG,e.message())
+                }catch (e:Throwable){
+                    Log.d(TAG,"algo va mal")
+                    showProgressBarFlag.value=false
+                    responseLogin.value = "Error desconocido"
+                }
+
+
+            }
+
+
         }
 
 
