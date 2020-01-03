@@ -1,7 +1,6 @@
 package com.smartappsolutions.turnera.view
 
 import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,12 +14,10 @@ import com.smartappsolutions.turnera.viewModel.LoginViewModel
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.smartappsolutions.turnera.R
-import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.databinding.ActivityLoginBinding
 import com.smartappsolutions.turnera.view.dialogs.DialogConexion
 import com.smartappsolutions.turnera.view.dialogs.MDialogSettings
 import kotlinx.android.synthetic.main.activity_login.*
-import java.util.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -47,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         validationObserver()
         showProgressBarObserver()
         addLoginResponseObserver()
-        starMainActivityObserver()
+        starAsuntosActivityObserver()
 
     }
 
@@ -80,9 +77,9 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    fun starMainActivityObserver(){
-        Log.d(TAG,"starMainActivityObserver()")
-        mViewModel.starMainAcitivity.observe(this, Observer {
+    fun starAsuntosActivityObserver(){
+        Log.d(TAG,"starAsuntosActivityObserver()")
+        mViewModel.starAsuntosAcitivity.observe(this, Observer {
             if(it){
                 val intent = Intent(this,AsuntosAcitivity::class.java)
                 startActivity(intent)

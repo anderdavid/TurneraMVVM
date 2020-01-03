@@ -31,14 +31,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
     val validation: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     val showProgressBarFlag:MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
     val responseLogin:MutableLiveData<String> by lazy { MutableLiveData<String>() }
-    val starMainAcitivity:MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    val starAsuntosAcitivity:MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
 
 
 
     init {
         Log.d(TAG,"hello world viewmodel")
         initGlobal()
-        starMainAcitivity.value=false
+        starAsuntosAcitivity.value=false
         isLogin()
     }
 
@@ -71,7 +71,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
             var mGlobal=repository.getFirstGlobal()
             if (mGlobal != null) {
                 if (mGlobal.isLogin){
-                    starMainAcitivity.value=true
+                    starAsuntosAcitivity.value=true
                 }
 
             }
@@ -119,7 +119,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
                         showProgressBarFlag.value=false
                         Log.d(TAG,"viewmodel isSucceful"+response.body().toString())
                         setLogin()
-                        starMainAcitivity.value=true
+                        starAsuntosAcitivity.value=true
                     }else{
                         showProgressBarFlag.value=false
                         val res =response.errorBody()?.string()
