@@ -30,6 +30,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
     val validation: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     val showProgressBarFlag:MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
     val responseLogin:MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val starMainAcitivity:MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+
 
 
     init {
@@ -87,6 +89,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
                     if(response.isSuccessful){
                         showProgressBarFlag.value=false
                         Log.d(TAG,"viewmodel isSucceful"+response.body().toString())
+                        starMainAcitivity.value=true
                     }else{
                         showProgressBarFlag.value=false
                         val res =response.errorBody()?.string()
@@ -101,14 +104,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
                     showProgressBarFlag.value=false
                     responseLogin.value = "Error desconocido"
                 }
-
-
             }
-
-
         }
-
-
     }
 
 }

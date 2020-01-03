@@ -1,5 +1,6 @@
 package com.smartappsolutions.turnera.view
 
+import android.content.Intent
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -45,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
         validationObserver()
         showProgressBarObserver()
         addLoginResponseObserver()
+        starMainActivityObserver()
 
     }
 
@@ -75,6 +77,18 @@ class LoginActivity : AppCompatActivity() {
             val ft = supportFragmentManager.beginTransaction()
             DialogConexion().setConfig(ft,"Alerta",loginResponse)
         })
+    }
+
+    fun starMainActivityObserver(){
+        Log.d(TAG,"starMainActivityObserver()")
+        mViewModel.starMainAcitivity.observe(this, Observer {
+            if(it){
+                val intent = Intent(this,AsuntosAcitivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
