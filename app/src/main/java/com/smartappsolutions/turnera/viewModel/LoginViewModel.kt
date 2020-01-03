@@ -25,6 +25,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
 
     val default_backend:String="lagranjadelsaber.com/"
 
+
     val repository = LoginRepository(application)
 
     val validation: MutableLiveData<String> by lazy { MutableLiveData<String>() }
@@ -37,6 +38,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
     init {
         Log.d(TAG,"hello world viewmodel")
         initGlobal()
+        starMainAcitivity.value=false
+        isLogin()
     }
 
     fun initGlobal(){
@@ -45,6 +48,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
             initGlobalDatabase()
         }
     }
+
 
     private  suspend fun initGlobalDatabase() = withContext(IO){
        var existGlobal: Boolean? =repository.validateExistFirstGlobal()
@@ -59,6 +63,31 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
         existGlobal=repository.validateExistFirstGlobal()
         Log.d(TAG, "existGlobal "+existGlobal.toString())
 
+    }
+
+    fun isLogin(){
+        Log.d(TAG,"isLogin()")
+        viewModelScope.launch{
+            var mGlobal=repository.getFirstGlobal()
+            if (mGlobal != null) {
+                if (mGlobal.isLogin){
+                    starMainAcitivity.value=true
+                }
+
+            }
+        }
+    }
+
+    fun setLogin(){
+        Log.d(TAG,"setLogin()")
+        viewModelScope.launch(IO) {
+            var mGlobal=repository.getFirstGlobal()
+            if(mGlobal !=null){
+                mGlobal.isLogin=true
+                repository.update(mGlobal)
+            }
+
+        }
     }
 
     private  suspend  fun setResponseLogin(response:String?){
@@ -89,6 +118,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
                     if(response.isSuccessful){
                         showProgressBarFlag.value=false
                         Log.d(TAG,"viewmodel isSucceful"+response.body().toString())
+                        setLogin()
                         starMainAcitivity.value=true
                     }else{
                         showProgressBarFlag.value=false
