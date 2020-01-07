@@ -6,6 +6,7 @@ import com.smartappsolutions.turnera.model.database.DatabaseHelper
 import com.smartappsolutions.turnera.model.database.entities.Global
 import com.smartappsolutions.turnera.model.database.entities.GlobalDao
 import com.smartappsolutions.turnera.network.MyApi
+import okhttp3.ResponseBody
 import  retrofit2.Response
 
 
@@ -32,7 +33,7 @@ class LoginRepository (application: Application) {
         return globalDao?.getFirstGlobal()
     }
 
-    suspend fun userLogin(email:String,password:String):Response<LoginResponseTest>{
+    suspend fun userLogin(email:String,password:String):Response<ResponseBody>{
         return MyApi().userLogin(email,password)
 
     }

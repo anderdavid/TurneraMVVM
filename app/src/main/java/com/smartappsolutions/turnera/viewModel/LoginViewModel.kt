@@ -117,20 +117,28 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
 
                     if(response.isSuccessful){
                         showProgressBarFlag.value=false
-                        Log.d(TAG,"viewmodel isSucceful"+response.body().toString())
-                        setLogin()
-                        starAsuntosAcitivity.value=true
-                    }else{
-                        showProgressBarFlag.value=false
-                        val res =response.errorBody()?.string()
+
+                        val res:String? =response.body()?.string()
+                        Log.d(TAG,"viewmodel isSucceful"+res)
                         val resJson = JSONObject(res)
-                        val msg = resJson.getString("message")
-                        setResponseLogin(msg)
+                        val status:Boolean =resJson.getString("status").toBoolean()
+                        Log.d(TAG,status.toString())
+
+                        if(status){
+                            showProgressBarFlag.value=false
+                            setLogin()
+                            starAsuntosAcitivity.value=true
+                        }else{
+                            val msg = resJson.getString("msg")
+                            setResponseLogin(msg)
+                        }
+
                     }
+
                 }catch (e: HttpException){
                     Log.d(TAG,e.message())
                 }catch (e:Throwable){
-                    Log.d(TAG,"algo va mal")
+                    Log.d(TAG,"algo va mal "+e.toString())
                     showProgressBarFlag.value=false
                     responseLogin.value = "Error desconocido"
                 }
