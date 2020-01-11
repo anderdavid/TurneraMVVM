@@ -12,8 +12,6 @@ import retrofit2.http.Url
 
 interface  ApiRest{
 
-    val mBaseUrl:String
-
     @FormUrlEncoded
     @POST("autenticacion")
     suspend fun userLogin(
@@ -22,8 +20,6 @@ interface  ApiRest{
     ): Response<ResponseBody>
 
     companion object{
-
-        val testUrl ="https://api.simplifiedcoding.in/course-apis/mvvm/"
 
         operator fun invoke(baseUrl:String):ApiRest{
             return Retrofit.Builder()
